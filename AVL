@@ -1,0 +1,219 @@
+class Node:
+    def __init__(self, value, left = None, right = None, parent = None, height = 1):
+        self.value = value
+        self.left = left
+        self.right = right
+        self.parent = parent
+        self.height = height
+
+    def hasLeftChild(self):
+        if self.left is not None:
+            return True
+        return False
+    
+    def hasRightChild(self):
+        if self.right is not None:
+            return True
+        return False
+    
+    def isRightChild(self):
+        if self.current_node.parent.right == self:
+            return True
+        return False
+    
+    def isLeftChild(self):
+        if self.current_node.parent.left == self:
+            return True
+        return False
+    
+    def isParent(self):
+        if self.isRightChild() or self.isLeftChild():
+            return True
+        return False
+    
+    def hasBothChild(self):
+        if self.hasRightChild() and self.hasLeftChild():
+            return True
+        return False
+    
+    def isRoot(self):
+        if self.isParent is None:
+            return True
+        return False
+
+    
+class BST:
+    def __init__(self):
+        self.root = None
+        
+    def insert(self, value):
+        if self.root == None:
+            self.root = Node(value)
+        else:
+            self._insert(value, self.root)
+            
+    def height(node):
+        if node != None:
+            return node.height
+        else:
+            return 0
+        
+    def bfactor(node):
+        return height(node.right) - height(node.left)
+
+    def fixheight(node):
+        if height(node.right) > height(node.left):
+            node.height = height(node.right + 1)
+        else:
+            node.height = height(node.left + 1)
+            
+    def rotateRight(p):
+        q = TreeNode(p.left)
+        p.left = q.right
+        q.right = p
+        fixheight(p)
+        fixheight(q)
+        return q
+      
+    def rotateLeft(q):
+        p = TreeNode(q.right)
+        q.right = p.left
+        p.left = q
+        fixheight(p)
+        fixheight(q)
+        return p
+
+    def balance(node):
+      fixheight(node)
+      if bfactor(node) == 2:
+         if bfactor(node.right) < 0:
+            node.right = rotateRight(node.right)
+         return rotateLeft(node)
+      if bfactor(node) == -2:
+         if bfactor(node.left) > 0:
+            node.left = rotateLeft(node.left)
+         return rotateRight(node)
+      return node
+
+
+    def _insert(self, value, current_node):
+        '''вставка'''
+        if value > current_node.value:
+            if current_node.right == None:
+                current_node.right = Node(value, parent = current_node)
+            else:
+
+                self._insert(value, current_node.right)
+                
+        elif value < current_node.value:
+            if current_node.left == None:
+                current_node.left = Node(value, parent = current_node)
+            else:
+                self._insert(value, current_node.left)
+        else:
+            print('exist')
+    
+    def find(self, value):
+        if self.root is None:
+            return False
+        return self._find(self.root, value)
+    
+    def _find(self, current_node, x):
+        '''поиск'''
+        if current_node.value == x:
+            return True
+        elif current_node.value > x and current_node.hasLeftChild():
+            return self._find(current_node.left, x)
+        elif current_node.value < x and current_node.hasRightChild():
+            return self._find(current_node.right, x)
+        return False
+
+    def inOrder(self):
+        if self.root is None:
+            print('Tree is empty')
+        else:
+            self.print_inOrder(self.root)
+
+    def print_inOrder(self, start):
+        self.print_inOrder(start.left)
+        print(start.value, end = ' ')
+        self.print_inOrder(start.right)
+
+    def preOrder(self):
+        if self.root is None:
+            print('Tree is empty')
+        else:
+            self.print_inOrder(self.root)
+    
+    def print_preOrder(self, start):
+        print(start.value, end = ' ')
+        self.print_inOrder(start.left)
+        self.print_inOrder(start.right)
+        
+    def postOrder(self):
+        if self.root is None:
+            print('Tree is empty')
+        else:
+            self.print_inOrder(self.root)
+            
+    def print_postOrder(self, start):
+        self.print_inOrder(start.left)
+        self.print_inOrder(start.right)
+        print(start.value, end = ' ')
+
+    def size(self):
+        if self.root != None:
+            return self._size(self.root)
+        return 0
+    def _size(self, cur_node):
+        if cure_node != None:
+            return self._size(cur_node.left) + 1 + self._size(cur_node.right)
+        return 0
+
+    def deep(self):
+        if sel.root is not None:
+            return _deep(self.root)
+        return 0
+
+    def _deep(self, cur_node):
+        if cur_node is not None:
+            return 1 + max(self._deep(cur_node.left), self._deep(cur_node.right))
+
+    def del_list(self, value):
+        if self.root is None:
+            return 'Can not be deleted'
+        return self._delete(self.root, value)
+    
+    def _delete(self, current_node, x):
+        '''удаление'''
+        if current_node.value == x:
+            if current_node.left is None and current_node.right is None:
+                current_node.value = 0
+                current_node.parent = None
+                return 'Ok'
+            else:
+                return self.deleteWithChild(current_node)
+        elif current_node.value > x and current_node.hasLeftChild():
+            return self._delete(current_node.left, x)
+        elif current_node.value < x and current_node.hasRightChild():
+            return self._delete(current_node.right, x)
+        return 'Can not be deleted'
+
+    def deleteWithChild(self, current_node):
+        if current_node.hasLeftChild() and not current_node.hasRightChild():
+            current_node.value = current_node.left.value
+            current_node.left.value = 0
+            current_node.left.parent = None
+            return 'Ok'
+        elif current_node.hasRightChild() and not current_node.hasLeftChild():
+            current_node.value = current_node.right.value
+            current_node.right.value = 0
+            current_node.right.parent = None
+            return 'Ok'
+        return 'Can not be deleted'
+
+bst = BST()
+bst.insert(10)
+bst.insert(20)
+bst.insert(30)
+print(bst.del_list(20))
