@@ -1,0 +1,17 @@
+m = int(input())
+matrix = [] 
+for i in range(m):
+    matrix.append(list(map(int, input().split())))
+queue = [1] 
+distance = [0]*m 
+parents = [0]*m 
+visited = [False * m] 
+while queue != []:
+    a = queue[0]
+    for i in matrix:
+        if i[0] == a and i[1] not in visited:
+            queue.append(i[1])
+            parents[i[1]-1] = a - 1
+            distance[i[1]-1] = distance[parents[i[1]-1]] + 1
+            visited[i] = True
+    del queue[0]
