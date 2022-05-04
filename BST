@@ -159,11 +159,13 @@ class BST:
             current_node.value = current_node.left.value
             current_node.left.value = 0
             current_node.left.parent = None
+            current_node.left = None
             return 'Ok'
         elif current_node.hasRightChild() and not current_node.hasLeftChild():
             current_node.value = current_node.right.value
             current_node.right.value = 0
             current_node.right.parent = None
+            current_node.right = None
             return 'Ok'
         return 'Can not be deleted'
         
