@@ -166,9 +166,26 @@ class BST:
             current_node.right.parent = None
             return 'Ok'
         return 'Can not be deleted'
-
+        
 bst = BST()
 bst.insert(10)
 bst.insert(20)
 bst.insert(30)
 print(bst.del_list(20))
+
+while True:#ввод и вывод
+    a = input()
+    if a.find('insert') != -1:
+        bst.insert(int(a[7:]))
+    elif a.find('find') != -1:
+        print(bst.find(int(a[5:])))
+    elif a == 'exit':
+        break
+    elif a == 'count':
+        print(bst.size())
+    elif a == 'deep':
+        print(bst.deep())
+    elif a.find('delete') != -1:
+        print(bst.del_list(int(a[7:])))
+    elif a == 'size':
+        print(bst.size())
