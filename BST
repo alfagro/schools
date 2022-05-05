@@ -94,6 +94,7 @@ class BST:
             print(x.value)
             self.print_inOrder(x.right)
 
+
     def preOrder(self):
         if self.root is None:
             print('Tree Is Empty')
@@ -115,11 +116,11 @@ class BST:
             self.print_postOrder(start.left)
             self.print_postOrder(start.right)
             print(start.value)
-
+    
     def size(self):
-        if self.root != None:
+        if self.root is not None:
             return self._size(self.root)
-        return "Tree Is Empty"
+        return 'Tree Is Empty'
     def _size(self, cur_node):
         if cur_node != None:
             return self._size(cur_node.left) + 1 + self._size(cur_node.right)
@@ -128,7 +129,7 @@ class BST:
     def deep(self):
         if self.root is not None:
             return self._deep(self.root)
-        return "Tree Is Empty" 
+        return 'Tree Is Empty' 
     def _deep(self, cur_node):
         if cur_node is not None:
             return 1 + max(self._deep(cur_node.left), self._deep(cur_node.right))
@@ -168,9 +169,9 @@ class BST:
             current_node.right = None
             return 'Ok'
         return 'Can not be deleted'
-        
-bst = BST()
 
+bst = BST()
+data = []
 while True:#ввод и вывод
     a = input()
     if a.find('insert') != -1:
@@ -206,3 +207,4 @@ while True:#ввод и вывод
             print(min(data))
         else:
             print('Tree Is Empty')
+
