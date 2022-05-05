@@ -127,12 +127,12 @@ class BST:
 
     def deep(self):
         if self.root is not None:
-            return _deep(self.root)
-        return 0
-
+            return self._deep(self.root)
+        return 0 
     def _deep(self, cur_node):
         if cur_node is not None:
             return 1 + max(self._deep(cur_node.left), self._deep(cur_node.right))
+        return 0
 
     def del_list(self, value):
         if self.root is None:
