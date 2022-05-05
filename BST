@@ -85,41 +85,41 @@ class BST:
 
     def inOrder(self):
         if self.root is None:
-            print('Tree is empty')
+            print('Tree Is Empty')
         else:
-            self.print_inOrder(self.root)
-
-    def print_inOrder(self, start):
-        self.print_inOrder(start.left)
-        print(start.value, end = ' ')
-        self.print_inOrder(start.right)
+            return self.print_inOrder(self.root)
+    def print_inOrder(self, x):
+        if x is not None:
+            self.print_inOrder(x.left)
+            print(x.value)
+            self.print_inOrder(x.right)
 
     def preOrder(self):
         if self.root is None:
-            print('Tree is empty')
+            print('Tree Is Empty')
         else:
             self.print_preOrder(self.root)
-    
     def print_preOrder(self, start):
-        print(start.value, end = ' ')
-        self.print_preOrder(start.left)
-        self.print_preOrder(start.right)
+        if start is not None:
+            print(start.value)
+            self.print_preOrder(start.left)
+            self.print_preOrder(start.right)
         
     def postOrder(self):
         if self.root is None:
-            print('Tree is empty')
+            print('Tree Is Empty')
         else:
-            self.print_postOrder(self.root)
-            
+            return self.print_postOrder(self.root)
     def print_postOrder(self, start):
-        self.print_postOrder(start.left)
-        self.print_postOrder(start.right)
-        print(start.value, end = ' ')
+        if start is not None:
+            self.print_postOrder(start.left)
+            self.print_postOrder(start.right)
+            print(start.value)
 
     def size(self):
         if self.root != None:
             return self._size(self.root)
-        return 0
+        return "Tree Is Empty"
     def _size(self, cur_node):
         if cur_node != None:
             return self._size(cur_node.left) + 1 + self._size(cur_node.right)
@@ -128,7 +128,7 @@ class BST:
     def deep(self):
         if self.root is not None:
             return self._deep(self.root)
-        return 0 
+        return "Tree Is Empty" 
     def _deep(self, cur_node):
         if cur_node is not None:
             return 1 + max(self._deep(cur_node.left), self._deep(cur_node.right))
@@ -170,24 +170,39 @@ class BST:
         return 'Can not be deleted'
         
 bst = BST()
-bst.insert(10)
-bst.insert(20)
-bst.insert(30)
-print(bst.del_list(20))
 
 while True:#ввод и вывод
     a = input()
     if a.find('insert') != -1:
+        data.append(int(a[7:]))
         bst.insert(int(a[7:]))
     elif a.find('find') != -1:
         print(bst.find(int(a[5:])))
-    elif a == 'exit':
+    elif a == 'stop':
         break
-    elif a == 'count':
+    elif a == 'size':
         print(bst.size())
-    elif a == 'deep':
+    elif a == 'height':
         print(bst.deep())
     elif a.find('delete') != -1:
         print(bst.del_list(int(a[7:])))
     elif a == 'size':
         print(bst.size())
+    elif a == 'root':
+        print(bst.root.value)
+    elif a == 'print inOrder':
+        bst.inOrder()
+    elif a == 'print preOrder':
+        bst.preOrder()
+    elif a == 'print postOrder':
+        bst.postOrder()
+    elif a == 'max':
+        if data != []:
+            print(max(data))
+        else:
+            print('Tree Is Empty')
+    elif a == 'min':
+        if data != []:
+            print(min(data))
+        else:
+            print('Tree Is Empty')
