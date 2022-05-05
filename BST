@@ -98,22 +98,22 @@ class BST:
         if self.root is None:
             print('Tree is empty')
         else:
-            self.print_inOrder(self.root)
+            self.print_preOrder(self.root)
     
     def print_preOrder(self, start):
         print(start.value, end = ' ')
-        self.print_inOrder(start.left)
-        self.print_inOrder(start.right)
+        self.print_preOrder(start.left)
+        self.print_preOrder(start.right)
         
     def postOrder(self):
         if self.root is None:
             print('Tree is empty')
         else:
-            self.print_inOrder(self.root)
+            self.print_postOrder(self.root)
             
     def print_postOrder(self, start):
-        self.print_inOrder(start.left)
-        self.print_inOrder(start.right)
+        self.print_postOrder(start.left)
+        self.print_postOrder(start.right)
         print(start.value, end = ' ')
 
     def size(self):
