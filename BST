@@ -121,12 +121,12 @@ class BST:
             return self._size(self.root)
         return 0
     def _size(self, cur_node):
-        if cure_node != None:
+        if cur_node != None:
             return self._size(cur_node.left) + 1 + self._size(cur_node.right)
         return 0
 
     def deep(self):
-        if sel.root is not None:
+        if self.root is not None:
             return _deep(self.root)
         return 0
 
