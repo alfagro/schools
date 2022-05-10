@@ -1,7 +1,10 @@
 m = int(input())
-matrix = [] 
-for i in range(m):
-    matrix.append(list(map(int, input().split())))
+matrix = [[0, 1, 1, 0, 0, 0],
+          [0, 0, 1, 1, 0, 0],
+          [0, 0, 0, 1, 0, 0],
+          [0, 0, 0, 0, 1, 0],
+          [0, 1, 0, 0, 0, 1],
+          [0, 0, 0, 0, 0, 0]] 
 queue = [1] 
 distance = [0]*m 
 parents = [0]*m 
