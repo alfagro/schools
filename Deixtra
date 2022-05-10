@@ -1,1 +1,18 @@
+#deyxtra code
+n = int(input())
+matrix = [[1000000, 7, 9, 1000000, 1000000, 14],
+          [7, 1000000, 10, 15, 1000000, 1000000],
+          [9, 10, 1000000, 11, 1000000, 2],
+          [1000000, 15, 11, 1000000, 6, 1000000],
+          [1000000, 1000000, 1000000, 6, 1000000, 9],
+          [14, 1000000, 2, 1000000, 9, 1000000]]
+
+distance = [1000000] * n
+distance[0] = 0
+used = [False] * n
+for i in range(n):
+    for j in range(n):
+        if matrix[i][j] + distance[i] < distance [j] and not used[j]:
+            distance[j] = matrix[i][j] + distance[i]
+    used[i] = True
 
