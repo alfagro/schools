@@ -1,20 +1,23 @@
-m = int(input())
-matrix = [[0, 1, 1, 0, 0, 0],
-          [0, 0, 1, 1, 0, 0],
-          [0, 0, 0, 1, 0, 0],
-          [0, 0, 0, 0, 1, 0],
-          [0, 1, 0, 0, 0, 1],
-          [0, 0, 0, 0, 0, 0]] 
-queue = [1] 
-distance = [0]*m 
-parents = [0]*m 
-visited = [False * m] 
-while queue != []:
-    a = queue[0]
-    for i in matrix:
-        if i[0] == a and i[1] not in visited:
-            queue.append(i[1])
-            parents[i[1]-1] = a - 1
-            distance[i[1]-1] = distance[parents[i[1]-1]] + 1
-            visited[i] = True
-    del queue[0]
+n = int(input())
+matrix = [[0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+          [1, 0, 1, 0, 0, 1, 0, 0, 0, 0],
+          [1, 1, 0, 1, 1, 1, 1, 0, 0, 0],
+          [1, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+          [0, 0, 1, 0, 0, 1, 1, 0, 1, 1],
+          [0, 1, 1, 0, 1, 0, 0, 0, 0, 1],
+          [0, 0, 1, 1, 1, 0, 0, 1, 1, 0],
+          [0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+          [0, 0, 0, 0, 1, 0, 1, 1, 0, 1],
+          [0, 0, 0, 0, 1, 1, 0, 0, 1, 0]]
+queue = [] 
+visited = [] 
+for i in range(n):
+    for j in range(n):
+        if matrix[i][j] == 1 and  i not in visited:
+            queue.append(i)
+            queue.append(j)
+            
+    visited.append(i)
+    queue.pop(0)
+            
+
