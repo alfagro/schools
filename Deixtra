@@ -12,7 +12,6 @@ distance[0] = 0
 used = [False] * n
 for i in range(n):
     for j in range(n):
-        if matrix[i][j] + distance[i] < distance [j] and not used[j]:
+        if matrix[i][j] + distance[i] < distance [j] and not used[i]:
             distance[j] = matrix[i][j] + distance[i]
     used[i] = True
-
