@@ -57,7 +57,6 @@ class BST:
             if current_node.right == None:
                 current_node.right = Node(value, parent = current_node)
             else:
-
                 self._insert(value, current_node.right)
                 
         elif value < current_node.value:
@@ -65,8 +64,6 @@ class BST:
                 current_node.left = Node(value, parent = current_node)
             else:
                 self._insert(value, current_node.left)
-        else:
-            print('exist')
     
     def find(self, value):
         if self.root is None:
