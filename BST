@@ -1,75 +1,157 @@
+# класс с листом
 class Node:
-    def __init__(self, value, left = None, right = None, parent = None):
+    def __init__(self, value, left=None, right=None, parent=None, height=1):
         self.value = value
         self.left = left
         self.right = right
         self.parent = parent
+        self.height = height
 
     def hasLeftChild(self):
         if self.left is not None:
             return True
         return False
-    
+
     def hasRightChild(self):
         if self.right is not None:
             return True
         return False
-    
+
     def isRightChild(self):
-        if self.current_node.parent.right == self:
+        if self.parent.right == self:
             return True
         return False
-    
+
     def isLeftChild(self):
-        if self.current_node.parent.left == self:
+        if self.parent.left == self:
             return True
         return False
-    
+
     def isParent(self):
         if self.isRightChild() or self.isLeftChild():
             return True
         return False
-    
+
     def hasBothChild(self):
         if self.hasRightChild() and self.hasLeftChild():
             return True
         return False
-    
+
     def isRoot(self):
         if self.isParent is None:
             return True
         return False
 
-    
+
+# класс с авл деревом
 class BST:
     def __init__(self):
         self.root = None
+
+    def height(self, node):
+        if node:
+            return node.height
+        return 0
+
+    def bfactor(self, node):
+        if node:
+            return self.height(node.right) - self.height(node.left)
+        return 0
+
+    # малый правый поворот
+    def rotateRight(self, p):
+        paren = p.parent
+        q = p.left
+        p.left = q.right
+        q.right = p
+        p.parent = q
+
+        if p.right: 
+            p.right.parent = p
+ 
+        if paren:
+            q.parent = paren
+            if p == paren.left:
+                paren.left = q
+            else:
+                paren.right = q
+        else:
+            self.root = q
+            q.parent = None
+            
+        self.fixheight(p)
+        self.fixheight(q)
+        return q
+
+    # малый левый поворот
+    def rotateLeft(self, q):
+        paren = q.parent
+        p = q.right
+        q.right = p.left
+        p.left = q
+        q.parent = p
         
+        if q.left: 
+            q.left.parent = q
+            
+        if paren:
+            p.parent = paren
+            if q == paren.left:
+                paren.left = p
+            else:
+                paren.right = p
+        else:
+            self.root = p
+            p.parent = None
+        
+        self.fixheight(p)
+        self.fixheight(q)
+        return p
+
+    #изменение высоты
+    def fixheight(self, node):
+        node.height = max(self.height(node.right), self.height(node.left)) + 1
+        return node.height
+
+    def balance(self, node):
+        self.fixheight(node)
+        if self.bfactor(node) == 2:
+            if self.bfactor(node.right) < 0:
+                node.right = self.rotateRight(node.right)
+            return self.rotateLeft(node)
+        if self.bfactor(node) == -2:
+            if self.bfactor(node.left) > 0:
+                node.left = self.rotateLeft(node.left)
+            return self.rotateRight(node)
+        return node
+    
     def insert(self, value):
         if self.root == None:
             self.root = Node(value)
         else:
             self._insert(value, self.root)
-            
+
     def _insert(self, value, current_node):
         '''вставка'''
         if value > current_node.value:
             if current_node.right == None:
-                current_node.right = Node(value, parent = current_node)
+                current_node.right = Node(value, parent=current_node)
             else:
                 self._insert(value, current_node.right)
-                
+
         elif value < current_node.value:
             if current_node.left == None:
-                current_node.left = Node(value, parent = current_node)
+                current_node.left = Node(value, parent=current_node)
             else:
                 self._insert(value, current_node.left)
-    
+        # баланс
+        self.balance(current_node)
+
     def find(self, value):
         if self.root is None:
             return False
         return self._find(self.root, value)
-    
+
     def _find(self, current_node, x):
         '''поиск'''
         if current_node.value == x:
@@ -85,39 +167,42 @@ class BST:
             print('Tree Is Empty')
         else:
             return self.print_inOrder(self.root)
+
     def print_inOrder(self, x):
         if x is not None:
             self.print_inOrder(x.left)
             print(x.value)
             self.print_inOrder(x.right)
 
-
     def preOrder(self):
         if self.root is None:
             print('Tree Is Empty')
         else:
             self.print_preOrder(self.root)
+
     def print_preOrder(self, start):
         if start is not None:
             print(start.value)
             self.print_preOrder(start.left)
             self.print_preOrder(start.right)
-        
+
     def postOrder(self):
         if self.root is None:
             print('Tree Is Empty')
         else:
             return self.print_postOrder(self.root)
+
     def print_postOrder(self, start):
         if start is not None:
             self.print_postOrder(start.left)
             self.print_postOrder(start.right)
             print(start.value)
-    
+
     def size(self):
         if self.root is not None:
             return self._size(self.root)
         return 'Tree Is Empty'
+
     def _size(self, cur_node):
         if cur_node != None:
             return self._size(cur_node.left) + 1 + self._size(cur_node.right)
@@ -126,50 +211,17 @@ class BST:
     def deep(self):
         if self.root is not None:
             return self._deep(self.root)
-        return 'Tree Is Empty' 
+        return 'Tree Is Empty'
+
     def _deep(self, cur_node):
         if cur_node is not None:
             return 1 + max(self._deep(cur_node.left), self._deep(cur_node.right))
         return 0
 
-    def del_list(self, value):
-        if self.root is None:
-            return 'Can not be deleted'
-        return self._delete(self.root, value)
-    
-    def _delete(self, current_node, x):
-        '''удаление'''
-        if current_node.value == x:
-            if current_node.left is None and current_node.right is None:
-                current_node.value = 0
-                current_node.parent = None
-                return 'Ok'
-            else:
-                return self.deleteWithChild(current_node)
-        elif current_node.value > x and current_node.hasLeftChild():
-            return self._delete(current_node.left, x)
-        elif current_node.value < x and current_node.hasRightChild():
-            return self._delete(current_node.right, x)
-        return 'Can not be deleted'
-
-    def deleteWithChild(self, current_node):
-        if current_node.hasLeftChild() and not current_node.hasRightChild():
-            current_node.value = current_node.left.value
-            current_node.left.value = 0
-            current_node.left.parent = None
-            current_node.left = None
-            return 'Ok'
-        elif current_node.hasRightChild() and not current_node.hasLeftChild():
-            current_node.value = current_node.right.value
-            current_node.right.value = 0
-            current_node.right.parent = None
-            current_node.right = None
-            return 'Ok'
-        return 'Can not be deleted'
 
 bst = BST()
 data = []
-while True:#ввод и вывод
+while True:  # ввод и вывод
     a = input()
     if a.find('insert') != -1:
         data.append(int(a[7:]))
@@ -178,16 +230,15 @@ while True:#ввод и вывод
         print(bst.find(int(a[5:])))
     elif a == 'stop':
         break
-    elif a == 'size':
-        print(bst.size())
     elif a == 'height':
         print(bst.deep())
-    elif a.find('delete') != -1:
-        print(bst.del_list(int(a[7:])))
     elif a == 'size':
         print(bst.size())
     elif a == 'root':
-        print(bst.root.value)
+        if bst.root is not None:
+            print(bst.root.value)
+        else:
+            print('Tree Is Empty')
     elif a == 'print inOrder':
         bst.inOrder()
     elif a == 'print preOrder':
@@ -204,4 +255,3 @@ while True:#ввод и вывод
             print(min(data))
         else:
             print('Tree Is Empty')
-
