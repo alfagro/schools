@@ -49,12 +49,12 @@ class BST:
         self.root = None
 
     def height(self, node):
-        if node is not None:
+        if node:
             return node.height
         return 0
 
     def bfactor(self, node):
-        if node is not None:
+        if node:
             return self.height(node.right) - self.height(node.left)
         return 0
 
@@ -85,30 +85,14 @@ class BST:
             node.height = self.height(node.left) + 1
         return node.height
 
-    '''
-
-    def balance(self, node):
-        self.fixheight(node)
-        if self.bfactor(node) >= 2:
-            if self.bfactor(node.right) < 0:
-                node.right = self.rotateRight(node.right)
-                return self.rotateRight(node)
-
-        if self.bfactor(node) <= -2:
-            if self.bfactor(node.left) > 0:
-                node.left = self.rotateLeft(node.left)
-                return self.rotateLeft(node)
-        return node
-        '''
-
     def balance(self, node):
         self.fixheight(node)
         if self.bfactor(node) == 2:
-            if self.bfactor(node.right) < 0:
+            if self.bfactor(node.right) > 0:
                 node.right = self.rotateRight(node.right)
             return self.rotateLeft(node)
         if self.bfactor(node) == -2:
-            if self.bfactor(node.left) > 0:
+            if self.bfactor(node.left) < 0:
                 node.left = self.rotateLeft(node.left)
             return self.rotateRight(node)
         return node
@@ -134,8 +118,6 @@ class BST:
                 self._insert(value, current_node.left)
         # баланс
         self.balance(current_node)
-
-
 
     def find(self, value):
         if self.root is None:
@@ -210,8 +192,6 @@ class BST:
 
 
 bst = BST()
-c_n = None
-# c_n.value
 data = []
 while True:  # ввод и вывод
     a = input()
@@ -247,4 +227,3 @@ while True:  # ввод и вывод
             print(min(data))
         else:
             print('Tree Is Empty')
-
